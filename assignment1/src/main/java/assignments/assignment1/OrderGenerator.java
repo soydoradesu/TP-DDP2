@@ -4,15 +4,6 @@ import java.util.Scanner;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
-
-    /* 
-    Anda boleh membuat method baru sesuai kebutuhan Anda
-    Namun, Anda tidak boleh menghapus ataupun memodifikasi return type method yang sudah ada.
-    */
-
-    /*
-     * Method  ini untuk menampilkan menu
-     */
     public static void showMenu(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
@@ -28,16 +19,52 @@ public class OrderGenerator {
         System.out.println("3. Keluar");
     }
 
-    /*
-     * Method ini digunakan untuk membuat ID
-     * dari nama restoran, tanggal order, dan nomor telepon
-     * 
-     * @return String Order ID dengan format sesuai pada dokumen soal
-     */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Order ID sesuai ketentuan
-        return "TP";
+        if (namaRestoran.length() < 4) {
+            return "Nama Restoran tidak valid!";
+        }
+    
+        String restoranID = namaRestoran.substring(0, 4).toUpperCase();
+    
+        String date = tanggalOrder.replaceAll("/", "");
+    
+        int sum = 0;
+        for (int i = 0; i < noTelepon.length(); i++) {
+            char charNoTelepon = noTelepon.charAt(i);
+            sum += charNoTelepon - '0';
+        }
+        String phoneSuffix = String.format("%02d", sum % 100);
+    
+        String beforeChecksum = restoranID + date + phoneSuffix;
+    
+        int sum1 = 0, sum2 = 0;
+        for (int i = 0; i < beforeChecksum.length(); i++) {
+            int value = (int) beforeChecksum.charAt(i);
+            if (i % 2 == 0) {
+                sum1 += value;
+            } else {
+                sum2 += value;
+            }
+        }
+    
+        char checksum1;
+        char checksum2;
+    
+        if (sum1 % 36 < 10) {
+            checksum1 = (char) ('0' + sum1 % 36);
+        } else {
+            checksum1 = (char) ('A' + (sum1 % 36 - 10));
+        }
+    
+        if (sum2 % 36 < 10) {
+            checksum2 = (char) ('0' + sum2 % 36);
+        } else {
+            checksum2 = (char) ('A' + (sum2 % 36 - 10));
+        }
+    
+        return beforeChecksum + checksum1 + checksum2;
     }
+    
 
 
     /*
