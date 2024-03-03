@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
+
     public static void showMenu(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
@@ -55,27 +56,28 @@ public class OrderGenerator {
     }
     
     public static String generateBill(String OrderID, String lokasi){
-        int deliveryCost;
+        String deliveryCost;
         switch (lokasi){
             case "P":
-                deliveryCost = 10000;
+                deliveryCost = "10.000";
                 break;
             case "U":
-                deliveryCost = 20000;
+                deliveryCost = "20.000";
                 break;
             case "T":
-                deliveryCost = 30000;
+                deliveryCost = "30.000";
                 break;
             case "S":
-                deliveryCost = 40000;
+                deliveryCost = "40.000";
                 break;
             case "B":
-                deliveryCost = 50000;
+                deliveryCost = "50.000";
                 break;
-            default :
-                return  "Harap masukkan lokasi pengiriman yang ada pada jangkauan!";
+            default:
+                deliveryCost = "";
+                break;
         }
-        String bill = "Bill:\n";
+        String bill = "\nBill:\n";
         bill += "Order ID: "+ OrderID +"\n";
         String theDate = OrderID.substring(4,6) + "/" +OrderID.substring(6,8) +"/" + OrderID.substring(8,12);
         bill += "Tanggal Pemesanan: "+ theDate +"\n";
@@ -84,6 +86,28 @@ public class OrderGenerator {
 
         return bill;
     }
+
+    public static boolean isValidOrderID(String orderID) {
+        String code39 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int checkSum1 = 0;
+        int checkSum2 = 0;
+        int i = 0;
+    
+        while (i < orderID.length() - 2) {
+            if (i % 2 == 0) {
+                checkSum1 += code39.indexOf(orderID.charAt(i));
+            } else {
+                checkSum2 += code39.indexOf(orderID.charAt(i));
+            }
+            i++;
+        }
+    
+        char oCheckSum1 = code39.charAt(checkSum1 % 36);
+        char oCheckSum2 = code39.charAt(checkSum2 % 36);
+    
+        return orderID.charAt(orderID.length() - 2) == oCheckSum1 &&
+                orderID.charAt(orderID.length() - 1) == oCheckSum2;
+    }    
 
     public static void main(String[] args) {
         while (true){
@@ -127,8 +151,32 @@ public class OrderGenerator {
                     break;
     
                 case 2:
-                    // System.out.print("Order ID: ");
-                    // idOrder =  input.nextLine()
+                    do {
+                        System.out.print("Order ID: ");
+                        String idOrder =  input.nextLine();
+                        if (idOrder.length() < 16){
+                            System.out.println("Order ID minimal 16 karakter");
+                            continue;
+                        }
+
+                        if (isValidOrderID(idOrder)) {
+                            String lokasiPengiriman = "PUTSB";
+                            String lokasi;
+                            do{
+                                System.out.print("Lokasi Pengiriman: ");
+                                lokasi = input.nextLine().toUpperCase();
+                                if (!lokasiPengiriman.contains(lokasi))
+                                    System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!");
+                            } while (!lokasiPengiriman.contains(lokasi));
+                            String bill = generateBill(idOrder, lokasi);
+                            System.out.println(bill);
+                            break;
+                        } else {
+                            System.out.println("Silahkan masukkan Order ID yang valid!");
+                        }
+                    } while (true);
+                    break;
+
                 case 3:
                     System.out.println("Terima kasih telah menggunakan DepeFood!");
                     return;
