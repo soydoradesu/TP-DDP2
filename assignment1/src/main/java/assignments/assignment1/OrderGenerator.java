@@ -17,13 +17,10 @@ public class OrderGenerator {
         System.out.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
+        System.out.println("---------------------------------");
     }
 
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
-        if (namaRestoran.length() < 4) {
-            return "Nama Restoran tidak valid!";
-        }
-    
         String restoranID = namaRestoran.substring(0, 4).toUpperCase();
     
         String date = tanggalOrder.replaceAll("/", "");
@@ -61,31 +58,56 @@ public class OrderGenerator {
         } else {
             checksum2 = (char) ('A' + (sum2 % 36 - 10));
         }
-    
+
         return beforeChecksum + checksum1 + checksum2;
     }
     
-
-
-    /*
-     * Method ini digunakan untuk membuat bill
-     * dari order id dan lokasi
-     * 
-     * @return String Bill dengan format sesuai di bawah:
-     *          Bill:
-     *          Order ID: [Order ID]
-     *          Tanggal Pemesanan: [Tanggal Pemesanan]
-     *          Lokasi Pengiriman: [Kode Lokasi]
-     *          Biaya Ongkos Kirim: [Total Ongkos Kirim]
-     */
     public static String generateBill(String OrderID, String lokasi){
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Bill sesuai ketentuan
-        return "Bill";
+        int deliveryCost;
+        switch (lokasi){
+            case "P":
+                deliveryCost = 10000;
+                break;
+            case "U":
+                deliveryCost = 20000;
+                break;
+            case "T":
+                deliveryCost = 30000;
+                break;
+            case "S":
+                deliveryCost = 40000;
+                break;
+            case "B":
+                deliveryCost = 50000;
+                break;
+            default :
+                return  "Harap masukkan lokasi pengiriman yang ada pada jangkauan!";
+        }
+        String bill = "Bill:\n";
+        bill += "Order ID: "+ OrderID +"\n";
+        String theDate = OrderID.substring(4,6) + "/" +OrderID.substring(6,8) +"/" + OrderID.substring(8,12);
+        bill += "Tanggal Pemesanan: "+ theDate +"\n";
+        bill += "Lokasi Pengiriman: "+ lokasi +"\n";
+        bill += "Biaya Ongkos Kirim: "+ deliveryCost +"\n";
+
+        return bill;
     }
 
     public static void main(String[] args) {
         // TODO: Implementasikan program sesuai ketentuan yang diberikan
-    }
+        showMenu();
+        System.out.println("Pilihan menu: ");
+        int menu = input.nextInt();
+        input.nextLine();
+        switch (menu){
+            case 1:
+            System.out.println("Nama restoran: ");
+            String namaRestoran = input.nextLine();
+            System.out.println("Tanggal Pemesanan: ");
+            String tanggalOrder = input.nextLine();
+            System.out.println("No. Telpon: ");
+            String noTelepon = input.nextLine();
 
-    
+        }
+    }   
 }
