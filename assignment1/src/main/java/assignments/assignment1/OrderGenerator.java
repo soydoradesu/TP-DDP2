@@ -17,7 +17,7 @@ public class OrderGenerator {
         System.out.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
-        System.out.println("---------------------------------");
+        System.out.println("-----------------------------------------------");
     }
 
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
@@ -34,32 +34,24 @@ public class OrderGenerator {
     
         String beforeChecksum = restoranID + date + phoneSuffix;
     
-        int sum1 = 0, sum2 = 0;
-        for (int i = 0; i < beforeChecksum.length(); i++) {
-            int value = (int) beforeChecksum.charAt(i);
-            if (i % 2 == 0) {
-                sum1 += value;
-            } else {
-                sum2 += value;
-            }
-        }
-    
-        char checksum1;
-        char checksum2;
-    
-        if (sum1 % 36 < 10) {
-            checksum1 = (char) ('0' + sum1 % 36);
-        } else {
-            checksum1 = (char) ('A' + (sum1 % 36 - 10));
-        }
-    
-        if (sum2 % 36 < 10) {
-            checksum2 = (char) ('0' + sum2 % 36);
-        } else {
-            checksum2 = (char) ('A' + (sum2 % 36 - 10));
-        }
+            String code39 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int checkSum1 = 0;
+            int checkSum2 = 0;
+            int i = 0;
 
-        return beforeChecksum + checksum1 + checksum2;
+            while (i < beforeChecksum.length()) {
+                if (i % 2 == 0) {
+                    checkSum1 += code39.indexOf(beforeChecksum.charAt(i));
+                } else {
+                    checkSum2 += code39.indexOf(beforeChecksum.charAt(i));
+                }
+                i++;
+            }
+
+            char oCheckSum1 = code39.charAt(checkSum1 % 36);
+            char oCheckSum2 = code39.charAt(checkSum2 % 36);
+
+        return beforeChecksum + oCheckSum1 + oCheckSum2;
     }
     
     public static String generateBill(String OrderID, String lokasi){
@@ -94,20 +86,53 @@ public class OrderGenerator {
     }
 
     public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikan
-        showMenu();
-        System.out.println("Pilihan menu: ");
-        int menu = input.nextInt();
-        input.nextLine();
-        switch (menu){
-            case 1:
-            System.out.println("Nama restoran: ");
-            String namaRestoran = input.nextLine();
-            System.out.println("Tanggal Pemesanan: ");
-            String tanggalOrder = input.nextLine();
-            System.out.println("No. Telpon: ");
-            String noTelepon = input.nextLine();
-
-        }
-    }   
+        while (true){
+            showMenu();
+            System.out.print("Pilihan menu: ");
+            int menu = input.nextInt();
+            input.nextLine();
+            switch (menu){
+                case 1:
+                    String namaRestoran;
+                    do {
+                        System.out.print("Nama restoran: ");
+                        namaRestoran = input.nextLine();
+                        if (namaRestoran.length() < 4){
+                            System.out.println("Nama Restoran tidak valid!");
+                        }
+                    } while (namaRestoran.length() < 4);
+                    
+                    String tanggalOrder;
+                    do {
+                        System.out.print("Tanggal Pemesanan: ");
+                        tanggalOrder = input.nextLine();
+                        if (!tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")){
+                            System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!");
+                        }
+                    } while (!tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}"));
+                    
+                    String noTelepon;
+                    do {
+                        System.out.print("No. Telpon: ");
+                        noTelepon = input.next();
+                        if (!noTelepon.matches("\\d*[1-9]\\d*")){
+                            System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.");
+                        } 
+                    } while (!noTelepon.matches("\\d*[1-9]\\d*"));
+                    
+                    String orderID = generateOrderID(namaRestoran, tanggalOrder, noTelepon);
+                    System.out.println("Order ID: "+ orderID +" diterima!");
+    
+                    System.out.println("-----------------------------------------------");
+                    break;
+    
+                case 2:
+                    // System.out.print("Order ID: ");
+                    // idOrder =  input.nextLine()
+                case 3:
+                    System.out.println("Terima kasih telah menggunakan DepeFood!");
+                    return;
+            }
+        }  
+    }    
 }
