@@ -67,28 +67,30 @@ public class OrderGenerator {
     public static String generateBill(String OrderID, String lokasi){
         // Initializing delivery cost
         String deliveryCost;
+        lokasi = lokasi.toUpperCase();
         switch (lokasi){
             case "P":
-                deliveryCost = "10.000";
+                deliveryCost = "Rp 10.000";
                 break;
             case "U":
-                deliveryCost = "20.000";
+                deliveryCost = "Rp 20.000";
                 break;
             case "T":
-                deliveryCost = "30.000";
+                deliveryCost = "Rp 30.000";
                 break;
             case "S":
-                deliveryCost = "40.000";
+                deliveryCost = "Rp 40.000";
                 break;
             case "B":
-                deliveryCost = "50.000";
+                deliveryCost = "Rp 50.000";
                 break;
             default:
                 deliveryCost = ""; // Default value if location is not recognized
                 break;
         }
         // Generating bill
-        String bill = "\nBill:\n";
+        System.out.println("");
+        String bill = "Bill:\n";
         bill += "Order ID: "+ OrderID +"\n";
         String theDate = OrderID.substring(4,6) + "/" +OrderID.substring(6,8) +"/" + OrderID.substring(8,12);
         bill += "Tanggal Pemesanan: "+ theDate +"\n";
