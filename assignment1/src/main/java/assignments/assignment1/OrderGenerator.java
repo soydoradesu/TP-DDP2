@@ -82,7 +82,7 @@ public class OrderGenerator {
                 deliveryCost = "Rp 40.000";
                 break;
             case "B":
-                deliveryCost = "Rp 50.000";
+                deliveryCost = "Rp 60.000";
                 break;
             default:
                 deliveryCost = ""; // Default value if location is not recognized
@@ -158,7 +158,7 @@ public class OrderGenerator {
                     do {
                         System.out.print("No. Telpon: ");
                         noTelepon = input.next();
-                        if (!noTelepon.matches("\\d*[1-9]\\d*")){
+                        if (!noTelepon.matches("\\d*[0-9]\\d*")){
                             System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.");
                         } 
                     } while (!noTelepon.matches("\\d*[1-9]\\d*"));
