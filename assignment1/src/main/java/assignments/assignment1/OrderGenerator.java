@@ -95,7 +95,7 @@ public class OrderGenerator {
         String theDate = OrderID.substring(4,6) + "/" +OrderID.substring(6,8) +"/" + OrderID.substring(8,12);
         bill += "Tanggal Pemesanan: "+ theDate +"\n";
         bill += "Lokasi Pengiriman: "+ lokasi +"\n";
-        bill += "Biaya Ongkos Kirim: "+ deliveryCost +"\n";
+        bill += "Biaya Ongkos Kirim: "+ deliveryCost;
 
         return bill;
     }
@@ -126,83 +126,94 @@ public class OrderGenerator {
 
     // Main method
     public static void main(String[] args) {
+        showMenu();
         while (true){
-            showMenu();
             System.out.print("Pilihan menu: ");
             int menu = input.nextInt();
             input.nextLine();
+            System.out.println("");
             switch (menu){
                 case 1: // Menu 1
+                String noTelepon;
+                String namaRestoran;
+                String tanggalOrder;
+                boolean tru = true;
+                while (tru) {
                     // Input namaRestoran
-                    String namaRestoran;
-                    do {
-                        System.out.print("Nama restoran: ");
-                        namaRestoran = input.nextLine();
-                        if (namaRestoran.length() < 4){
-                            System.out.println("Nama Restoran tidak valid!");
-                        }
-                    } while (namaRestoran.length() < 4);
+                    System.out.print("Nama restoran: ");
+                    namaRestoran = input.nextLine();
+                    if (namaRestoran.length() < 4) {
+                        System.out.println("Nama Restoran tidak valid!\n");
+                        continue;
+                    }
                     
                     // Input tanggalOrder
-                    String tanggalOrder;
-                    do {
-                        System.out.print("Tanggal Pemesanan: ");
-                        tanggalOrder = input.nextLine();
-                        if (!tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")){
-                            System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!");
-                        }
-                    } while (!tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}"));
-                    
+                    System.out.print("Tanggal Pemesanan: ");
+                    tanggalOrder = input.nextLine();
+                    if (!tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                        System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
+                        continue; // Break the loop if input is invalid
+                    }
+                        
                     // Input noTelepon
-                    String noTelepon;
-                    do {
-                        System.out.print("No. Telpon: ");
-                        noTelepon = input.next();
-                        if (!noTelepon.matches("\\d*[0-9]\\d*")){
-                            System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.");
-                        } 
-                    } while (!noTelepon.matches("\\d*[1-9]\\d*"));
-                    
-                    // Generate Order ID
+                    System.out.print("No. Telpon: ");
+                    noTelepon = input.nextLine();
+                    if (!noTelepon.matches("\\d*[0-9]\\d*")) {
+                        System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.\n");
+                        continue; // Break the loop if input is invalid
+                    }
+
+                     // Generate Order ID
                     String orderID = generateOrderID(namaRestoran, tanggalOrder, noTelepon);
                     System.out.println("Order ID: "+ orderID +" diterima!");
-    
+
                     System.out.println("-----------------------------------------------");
-                    break;
-    
+
+                    tru = false;
+                } 
+                break;
+            
                 case 2: // Menu 2
-                    // Generate Bill
-                    do {
+                    while (true) {
+                        // Generate Bill
                         System.out.print("Order ID: ");
-                        String idOrder =  input.nextLine();
-                        if (idOrder.length() < 16){ // Error handling
-                            System.out.println("Order ID minimal 16 karakter");
+                        String idOrder = input.nextLine();
+                        if (idOrder.length() < 16) { // Error handling
+                            System.out.println("Order ID minimal 16 karakter\n");
                             continue;
                         }
-
+                
                         if (isValidOrderID(idOrder)) {
                             String lokasiPengiriman = "PUTSB"; // If not PUTSB then false
                             String lokasi;
-                            do{
+                            do {
                                 System.out.print("Lokasi Pengiriman: ");
                                 lokasi = input.nextLine().toUpperCase();
-                                if (!lokasiPengiriman.contains(lokasi))
+                                if (!lokasiPengiriman.contains(lokasi)) {
                                     System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!");
+                                    System.out.println("\nOrder ID: " + idOrder);
+                                }
                             } while (!lokasiPengiriman.contains(lokasi));
                             String bill = generateBill(idOrder, lokasi);
                             System.out.println(bill);
                             break;
                         } else {
-                            System.out.println("Silahkan masukkan Order ID yang valid!");
+                            System.out.println("Silahkan masukkan Order ID yang valid!\n");
                         }
-                    } while (true);
+                    }
                     System.out.println("-----------------------------------------------");
-                    break;
+                    break;                     
 
                 case 3: // Menu 3 EXIT
                     System.out.println("Terima kasih telah menggunakan DepeFood!");
                     return;
             }
-        }  
-    }    
-} // sudah :) yay
+
+        System.out.println("Pilih menu:");
+        System.out.println("1. Generate Order ID");
+        System.out.println("2. Generate Bill");
+        System.out.println("3. Keluar");
+        System.out.println("-----------------------------------------------");
+        }
+    }  
+}    // sudah :) yay
