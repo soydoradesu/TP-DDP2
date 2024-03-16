@@ -1,4 +1,4 @@
-package main.java.assignments.assignment2;
+package assignments.assignment2;
 
 public class Menu {
      // TODO: tambahkan attributes yang diperlukan untuk class ini
@@ -26,4 +26,5 @@ public class Menu {
     public void setHarga(double harga){
         this.harga = harga;
     }
+
 }

@@ -1,4 +1,6 @@
-package main.java.assignments.assignment2;
+package assignments.assignment2;
+
+import java.util.ArrayList;
 
 public class User {
      // TODO: tambahkan attributes yang diperlukan untuk class ini
@@ -66,5 +68,5 @@ public class User {
     // Add method to add orders to order history
     public void addOrderToHistory(Order order) {
         orderHistory.add(order);
-    
+    }
 }
