@@ -14,6 +14,7 @@ public class MainMenu {
         while(programRunning){
             printHeader();
             startMenu();
+            initUser();
             int command = input.nextInt();
             input.nextLine();
 
@@ -25,6 +26,8 @@ public class MainMenu {
                 String noTelp = input.nextLine();
 
                 // TODO: Validasi input login
+                User userLoggedIn = getUser(nama, noTelp);
+                
 
                 User userLoggedIn; // TODO: lengkapi
                 boolean isLoggedIn = true;
@@ -34,7 +37,7 @@ public class MainMenu {
                         menuCustomer();
                         int commandCust = input.nextInt();
                         input.nextLine();
-
+                        
                         switch(commandCust){
                             case 1 -> handleBuatPesanan();
                             case 2 -> handleCetakBill();
@@ -69,6 +72,7 @@ public class MainMenu {
 
     public static User getUser(String nama, String nomorTelepon){
         // TODO: Implementasi method untuk mendapat user dari userList
+        
         return null;
     }
 

@@ -1,10 +1,29 @@
 package main.java.assignments.assignment2;
 
 public class Restaurant {
-     // TODO: tambahkan attributes yang diperlukan untuk class ini
+    private String nama;
+    private ArrayList<Menu> menu; // Corrected ArrayList declaration
+
     public Restaurant(String nama){
-        // TODO: buat constructor untuk class ini
+        this.nama = nama;
     }
-    
-    // TODO: tambahkan methods yang diperlukan untuk class ini
+
+    // Getter and setter methods
+    public String getNama(){
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    // Add method to add menu items
+    public void addMenuItem(Menu menuItem) {
+        menu.add(menuItem);
+    }
+
+    // Add method to remove menu items
+    public void removeMenuItem(Menu menuItem) {
+        menu.remove(menuItem);
+    }
 }
