@@ -67,4 +67,12 @@ public class Order {
     public void setOrderFinished(boolean orderFinished) {
         this.orderFinished = orderFinished;
     }
+
+    public String statusOrder(){
+        if (orderFinished){
+            return "Selesai";
+        } else {
+            return "Not Finished";
+        }
+    }
 }

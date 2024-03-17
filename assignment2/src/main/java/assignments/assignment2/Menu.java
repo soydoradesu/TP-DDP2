@@ -19,8 +19,16 @@ public class Menu {
         this.namaMakanan = namaMakanan;
     }
 
-    public double getHarga(){
+    public double getHargaBefore(){
         return harga;
+    }
+
+    public String getHarga() {
+        if (harga == (int) harga) {
+            return String.valueOf((int) harga);
+        } else {
+            return String.valueOf(harga);
+        }
     }
 
     public void setHarga(double harga){

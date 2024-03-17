@@ -16,6 +16,8 @@ public class User {
         this.email = email;
         this.lokasi = lokasi;
         this.role = role;
+        this.orderHistory = new ArrayList<>(); // Initialize orderHistory ArrayList
+
     }
 
     public String getNama(){
@@ -62,8 +64,4 @@ public class User {
         return orderHistory;
     }
 
-    // Add method to add orders to order history
-    public void addOrderToHistory(Order order) {
-        orderHistory.add(order);
-    }
 }
