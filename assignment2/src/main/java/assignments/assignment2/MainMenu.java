@@ -54,15 +54,16 @@ public class MainMenu {
                             int commandAdmin = input.nextInt();
                             input.nextLine();
 
-                            switch(commandAdmin){
-                                case 1 -> handleTambahRestoran();
-                                case 2 -> handleHapusRestoran();
-                                case 3 -> isLoggedIn = false;
-                                default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
-                            }
+                        switch(commandAdmin){
+                            case 1 -> handleTambahRestoran();
+                            case 2 -> handleHapusRestoran();
+                            case 3 -> isLoggedIn = false;
+                            default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
                     }
-                }else {
+                }
+            }
+                else {
                     System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
                 } 
             }else if(command == 2){

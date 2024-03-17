@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Restaurant {
     private String nama;
-    private static ArrayList<Menu> menu;
+    private ArrayList<Menu> menu;
 
     public Restaurant(String nama){
         this.nama = nama;
