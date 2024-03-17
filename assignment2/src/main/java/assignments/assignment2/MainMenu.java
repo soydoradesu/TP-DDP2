@@ -1,6 +1,7 @@
 package assignments.assignment2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import static assignments.assignment1.OrderGenerator.*;
 
@@ -86,6 +87,8 @@ public class MainMenu {
 
     public static void handleBuatPesanan(){
         // TODO: Implementasi method untuk handle ketika customer membuat pesanan
+        System.out.println("-".repeat(15) + "Buat Pesanan" + "-".repeat(15));
+
     }
 
     public static void handleCetakBill(){
@@ -100,61 +103,105 @@ public class MainMenu {
         // TODO: Implementasi method untuk handle ketika customer ingin update status pesanan
     }
 
-    public static void handleTambahRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
-        restoList = new ArrayList<Restaurant>();
-        String namaResto;
-        System.out.println("-".repeat(15)+"Tambah Restoran"+"-".repeat(15));
-        do {
+    public static void handleTambahRestoran() {
+    if (restoList == null) {
+        restoList = new ArrayList<>();
+    }
+
+    System.out.println("-".repeat(15) + "Tambah Restoran" + "-".repeat(15));
+
+    while (true) {
         System.out.print("Nama: ");
-        namaResto = input.nextLine();
-        if(namaResto.length()<4){
-            System.out.print("Nama restoran tidak valid!");
+        String namaResto = input.nextLine();
+
+        if (namaResto.length() < 4) {
+            System.out.println("Nama restoran tidak valid!\n");
             continue;
-            }
-        boolean restoranExists = false;
+        }
+
+        boolean control = true;
         for (Restaurant resto : restoList) {
             if (resto.getNama().equals(namaResto)) {
-                restoranExists = true;
+                System.out.format("Restoran dengan nama %s sudah terdaftar. Mohon masukkan nama yang berbeda!\n\n", namaResto);
+                control = false;
                 break;
-                }
-             }
-        if (restoranExists) {
-            System.out.format("\nRestoran dengan nama %s sudah pernah terdaftar. Mohon masukkan nama yang berbeda!", namaResto);
-            continue;
-            } 
-        } while(namaResto.length()<4);
+            }
 
-        restoList.add(new Restaurant(namaResto));
+        }
+
+        if(!control){
+            continue;
+        }
+
+        // If the restaurant name is valid and not already in the list, break the loop
         Restaurant newRestaurant = new Restaurant(namaResto);
+        restoList.add(newRestaurant);
 
         System.out.print("Jumlah Makanan: ");
         int jumlah = input.nextInt();
-        input.nextLine();
-        
-        for(int i = 0; i < jumlah; i++){
+        input.nextLine(); // Consume newline
+
+        boolean control3 = true;
+        for (int i = 0; i < jumlah; i++) {
             String menuSubString = input.nextLine();
             String[] menuSplit = menuSubString.split(" ");
+            boolean control2 = true;
             for (char c : menuSplit[menuSplit.length - 1].toCharArray()) {
                 if (!Character.isDigit(c)) {
-                    System.out.print("Harga makanan tidak valid!");
+                    System.out.print("Harga menu harus bilangan bulat!\n\n");
+                    control2 = false;
                     break;
-                    }
                 }
+            }
+
+            if(!control2){
+                control3 = false;
+                break;
+            }
+            
             String harga = menuSplit[menuSplit.length - 1];
-            String namaMenu = "";
-            for (int j = 0; j < menuSplit.length; j++) {
-                namaMenu += menuSplit[j];
-                namaMenu += " ";
-                }
-            namaMenu = namaMenu.substring(0, namaMenu.length() - 1);
+            String namaMenu = String.join(" ", Arrays.copyOf(menuSplit, menuSplit.length - 1));
+            
             newRestaurant.getMenu().add(new Menu(namaMenu, Double.parseDouble(harga)));
+            }
+
+        if(!control3){
+            continue;
         }
-        System.out.format("\nRestaurant %s Berhasil terdaftar.", namaResto);   
+
+        System.out.format("Restaurant %s Berhasil terdaftar.\n", newRestaurant.getNama());
+        break;
+        }
     }
 
     public static void handleHapusRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
+        System.out.println("-".repeat(15) + "Hapus Restoran" + "-".repeat(15));
+
+        if (restoList.isEmpty()) {
+            System.out.println("Tidak ada restoran yang terdaftar!");
+            return;
+        }
+        while(true){
+            System.out.print("Nama Restoran: ");
+            String namaResto = input.nextLine();
+
+            boolean restoFound = false;
+            for (Restaurant resto : restoList) {
+                if (resto.getNama().equalsIgnoreCase(namaResto)) {
+                    restoList.remove(resto);
+                    restoFound = true;
+                    System.out.print("Restoran berhasil dihapus.");
+                    break;
+                }
+            }
+            if (!restoFound) {
+                System.out.println("Restoran tidak terdaftar pada sistem.\n");
+                continue;
+            }
+            if (restoFound){
+                break;
+            }
+        }
     }
 
     public static void initUser(){
