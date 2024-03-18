@@ -12,8 +12,8 @@ public class MainMenu {
     // Main method 
     public static void main(String[] args){
         boolean programRunning = true;
+        printHeader();
         while(programRunning){
-            printHeader();
             startMenu();
             initUser();
             int command = input.nextInt();
@@ -26,7 +26,10 @@ public class MainMenu {
                 System.out.print("Nomor Telepon: ");
                 String noTelp = input.nextLine();
                 
-                // TODO: Validasi input login
+                if (getUser(nama, noTelp) == null){
+                    System.out.print("Pengguna dengan data tersebut tidak ditemukan!\n");
+                    continue;
+                }
                 User userLoggedIn = getUser(nama, noTelp);
 
                 if(userLoggedIn != null){
@@ -514,6 +517,7 @@ public class MainMenu {
     }
 
     public static void startMenu(){
+        System.out.println("--------------------------------------------");
         System.out.println("Selamat datang di DepeFood!");
         System.out.println("--------------------------------------------");
         System.out.println("Pilih menu:");
