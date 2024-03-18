@@ -3,34 +3,27 @@ package assignments.assignment2;
 import java.util.ArrayList;
 
 public class Restaurant {
-    private String nama;
-    private ArrayList<Menu> menu;
+    private String nama; // Name of the restaurant
+    private ArrayList<Menu> menu; // List of menu items offered by the restaurant
 
+    // Constructor to initialize a Restaurant object with provided name
     public Restaurant(String nama){
-        this.nama = nama;
-        this.menu = new ArrayList<>();
+        this.nama = nama; // Initialize nama
+        this.menu = new ArrayList<>(); // Initialize menu ArrayList
     }
 
-    // Getter and setter methods
+    // Getter method for nama
     public String getNama(){
         return nama;
     }
 
+    // Setter method for nama
     public void setNama(String nama) {
         this.nama = nama;
     }
 
+    // Getter method for menu
     public ArrayList<Menu> getMenu(){
         return menu;
-    }
-
-    // Add method to add menu items
-    public void addMenuItem(Menu menuItem) {
-        menu.add(menuItem);
-    }
-
-    // Add method to remove menu items
-    public void removeMenuItem(Menu menuItem) {
-        menu.remove(menuItem);
     }
 }

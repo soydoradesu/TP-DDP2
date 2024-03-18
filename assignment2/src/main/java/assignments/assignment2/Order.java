@@ -3,22 +3,23 @@ package assignments.assignment2;
 import java.util.ArrayList;
 
 public class Order {
-    private String orderID;
-    private String tanggalPemesanan;
-    private int biayaOngkosKirim;
-    private Restaurant restaurant;
-    private ArrayList<Menu> items;
-    private boolean orderFinished;
+    private String orderID; // Unique identifier for the order
+    private String tanggalPemesanan; // Date of the order
+    private int biayaOngkosKirim; // Delivery cost of the order
+    private Restaurant restaurant; // Restaurant from which the order is placed
+    private ArrayList<Menu> items; // List of menu items ordered
+    private boolean orderFinished; // Flag indicating whether the order is finished or not
 
+    // Constructor to initialize an Order object with provided parameters
     public Order(String orderId, String tanggal, int ongkir, Restaurant resto, ArrayList<Menu> items){
-        this.orderID = orderId;
-        this.tanggalPemesanan = tanggal;
-        this.biayaOngkosKirim = ongkir;
-        this.restaurant = resto;
-        this.items = items;
+        this.orderID = orderId; // Initialize orderID
+        this.tanggalPemesanan = tanggal; // Initialize tanggalPemesanan
+        this.biayaOngkosKirim = ongkir; // Initialize biayaOngkosKirim
+        this.restaurant = resto; // Initialize restaurant
+        this.items = items; // Initialize items
     }
 
-    // Getter dan Setter Methods
+    // Getter and Setter Methods
 
     public String getOrderID() {
         return orderID;
@@ -68,11 +69,12 @@ public class Order {
         this.orderFinished = orderFinished;
     }
 
+    // Method to get the status of the order
     public String statusOrder(){
         if (orderFinished){
-            return "Selesai";
+            return "Selesai"; // If order is finished, return "Selesai"
         } else {
-            return "Not Finished";
+            return "Not Finished"; // If order is not finished, return "Not Finished"
         }
     }
 }
