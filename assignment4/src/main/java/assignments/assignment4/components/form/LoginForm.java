@@ -17,8 +17,6 @@ import assignments.assignment4.MainApp;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
 
-import java.util.function.Consumer;
-
 public class LoginForm {
     private Stage stage;
     private MainApp mainApp; // MainApp instance
@@ -31,24 +29,81 @@ public class LoginForm {
     }
 
     private Scene createLoginForm() {
-        //TODO: Implementasi method untuk menampilkan komponen form login
+        // Create GridPane layout
         GridPane grid = new GridPane();
+        grid.setPadding(new Insets(20));
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        // Create and add the title label
+        Label titleLabel = new Label("Welcome to DepeFood");
+        titleLabel.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        grid.add(titleLabel, 0, 0, 2, 1);
+        GridPane.setHalignment(titleLabel, HPos.CENTER);
+        GridPane.setValignment(titleLabel, VPos.CENTER);
+
+        // Create and add labels and text fields for name and phone
+        Label nameLabel = new Label("Name:");
+        nameInput = new TextField();
+        Label phoneLabel = new Label("Phone Number:");
+        phoneInput = new TextField();
+
+        grid.add(nameLabel, 0, 1);
+        grid.add(nameInput, 1, 1);
+        grid.add(phoneLabel, 0, 2);
+        grid.add(phoneInput, 1, 2);
+
+        // Create and add the login button
+        Button loginButton = new Button("Login");
+        loginButton.setPrefWidth(75);
+        grid.add(loginButton, 1, 3);
+        GridPane.setHalignment(loginButton, HPos.RIGHT);
+
+        // Set button action to handle login
+        loginButton.setOnAction(e -> handleLogin());
+
+        // Set grid alignment
+        grid.setAlignment(Pos.CENTER);
 
         return new Scene(grid, 400, 600);
     }
 
-
     private void handleLogin() {
-        //TODO: Implementasi validasi isian form login
-        if (true) {
+        // Get input values
+        String name = nameInput.getText().trim();
+        String phone = phoneInput.getText().trim();
 
+        // Validate inputs
+        if (name.isEmpty() || phone.isEmpty()) {
+            showAlert("Login Failed", "User not found!", "Please check your credentials.");
+            return;
+        }
+
+        User user = DepeFood.getUser(name, phone);
+
+        if (user != null) {
+            if (user.role.equals("Admin")) {
+                stage.setScene(new AdminMenu(stage, mainApp, user).getScene());
+                stage.show();
+            } else {
+                stage.setScene(new CustomerMenu(stage, mainApp, user).getScene());
+                stage.show();
+            }
         } else {
-
+            showAlert("Login Error", "User not found!", "Please check your credentials.");
         }
     }
+        
 
-    public Scene getScene(){
-        return this.createLoginForm();
+    private void showAlert(String title, String header, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
+    public Scene getScene() {
+        return this.createLoginForm();
+    }
 }
