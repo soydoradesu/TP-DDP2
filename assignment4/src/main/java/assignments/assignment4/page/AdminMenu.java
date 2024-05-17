@@ -28,7 +28,6 @@ public class AdminMenu extends MemberMenu {
     private Scene addRestaurantScene;
     private Scene addMenuScene;
     private Scene viewRestaurantsScene;
-    private List<Restaurant> restoList = new ArrayList<>();
     private MainApp mainApp; // Reference to MainApp instance
     private ComboBox<String> restaurantComboBox;
     private ComboBox<String> viewRestaurantComboBox;
@@ -94,7 +93,7 @@ public class AdminMenu extends MemberMenu {
 
         Label restaurantLabel = new Label("Choose a restaurant");
         restaurantComboBox = new ComboBox<>(FXCollections.observableArrayList(
-                restoList.stream().map(Restaurant::getNama).collect(Collectors.toList())
+                DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList())
         ));
 
         Label itemNameLabel = new Label("Menu Item Name");
@@ -146,7 +145,7 @@ public class AdminMenu extends MemberMenu {
         titleLabel.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
         Label chooseMenu = new Label("Choose the Restaurant");
         viewRestaurantComboBox = new ComboBox<>(FXCollections.observableArrayList(
-                restoList.stream().map(Restaurant::getNama).collect(Collectors.toList())
+                DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList())
         ));
         Label menuLabel = new Label("Menu:");
         ListView<String> restaurantMenuListView = new ListView<>();
@@ -179,9 +178,9 @@ public class AdminMenu extends MemberMenu {
         String validName = DepeFood.getValidRestaurantName(nama);
         if (validName != null) {
             Restaurant newRestaurant = new Restaurant(validName);
-            restoList.add(newRestaurant);
+            DepeFood.getRestoList().add(newRestaurant); // Update the shared DepeFood.getRestoList()
             showAlert("Information", "Success!", "Restaurant successfully registered!", Alert.AlertType.INFORMATION);
-            refresh();
+            refresh(); // Refresh the AdminMenu
             stage.setScene(scene);
         } else {
             showAlert("Error", "Name not Valid", "Please enter a valid name for the restaurant.", Alert.AlertType.ERROR);
@@ -203,17 +202,17 @@ public class AdminMenu extends MemberMenu {
     protected void refresh() {
         super.refresh();
         restaurantComboBox.setItems(FXCollections.observableArrayList(
-                restoList.stream().map(Restaurant::getNama).collect(Collectors.toList())
+                DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList())
         ));
         if (viewRestaurantComboBox != null) {
             viewRestaurantComboBox.setItems(FXCollections.observableArrayList(
-                    restoList.stream().map(Restaurant::getNama).collect(Collectors.toList())
+                    DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList())
             ));
         }
     }
 
     private Restaurant findRestaurantByName(String name) {
-        for (Restaurant restaurant : restoList) {
+        for (Restaurant restaurant : DepeFood.getRestoList()) {
             if (restaurant.getNama().equals(name)) {
                 return restaurant;
             }

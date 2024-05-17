@@ -77,15 +77,15 @@ public class CustomerSystemCLI extends UserSystemCLI {
                 continue;
             }
 
-            Order order = new Order(
-                    OrderGenerator.generateOrderID(restaurantName, tanggalPemesanan, userLoggedIn.getNomorTelepon()),
-                    tanggalPemesanan,
-                    OrderGenerator.calculateDeliveryCost(userLoggedIn.getLokasi()),
-                    restaurant,
-                    getMenuRequest(restaurant, listMenuPesananRequest));
+            // Order order = new Order(
+            //         OrderGenerator.generateOrderID(restaurantName, tanggalPemesanan, userLoggedIn.getNomorTelepon()),
+            //         tanggalPemesanan,
+            //         OrderGenerator.calculateDeliveryCost(userLoggedIn.getLokasi()),
+            //         restaurant,
+            //         getMenuRequest(restaurant, listMenuPesananRequest));
 
-            System.out.printf("Pesanan dengan ID %s diterima!", order.getOrderId());
-            userLoggedIn.addOrderHistory(order);
+            // System.out.printf("Pesanan dengan ID %s diterima!", order.getOrderId());
+            // userLoggedIn.addOrderHistory(order);
             return;
         }
     }

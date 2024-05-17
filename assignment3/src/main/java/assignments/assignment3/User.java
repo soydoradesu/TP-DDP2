@@ -3,6 +3,8 @@ package assignments.assignment3;
 import java.util.ArrayList;
 import java.util.List;
 
+import assignments.assignment3.payment.CreditCardPayment;
+import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.payment.DepeFoodPaymentSystem;
 
 public class User {
@@ -55,6 +57,15 @@ public class User {
 
     public DepeFoodPaymentSystem getPaymentSystem() {
         return paymentSystem;
+    }
+
+    public void setPaymentSystem(String paymentMethod){
+        if(paymentMethod.equals("Credit Card")){
+            this.paymentSystem = new CreditCardPayment();
+        }
+        if(paymentMethod.equals("Debit")){
+            this.paymentSystem = new DebitPayment();
+        }
     }
 
     public void addOrderHistory(Order order) {

@@ -6,11 +6,11 @@ public class DebitPayment implements DepeFoodPaymentSystem {
     @Override
     public long processPayment(long saldo, long amount) throws Exception {
         if (amount < MINIMUM_PAYMENT) {
-            throw new Exception("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+            throw new Exception("The amount of price must past Rp 50000!");
         }
 
         if (saldo < amount) {
-            throw new Exception("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
+            throw new Exception("Your Balance is low, please use another payment method.");
         }
 
         return amount;

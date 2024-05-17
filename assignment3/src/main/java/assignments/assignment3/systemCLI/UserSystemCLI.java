@@ -127,10 +127,10 @@ public abstract class UserSystemCLI {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator('\u0000');
         decimalFormat.setDecimalFormatSymbols(symbols);
-        for (Menu menu : order.getSortedMenu()) {
-            pesananBuilder.append("- ").append(menu.getNamaMakanan()).append(" ")
-                    .append(decimalFormat.format(menu.getHarga())).append("\n");
-        }
+        // for (Menu menu : order.getSortedMenu()) {
+        //     pesananBuilder.append("- ").append(menu.getNamaMakanan()).append(" ")
+        //             .append(decimalFormat.format(menu.getHarga())).append("\n");
+        // }
         if (pesananBuilder.length() > 0) {
             pesananBuilder.deleteCharAt(pesananBuilder.length() - 1);
         }

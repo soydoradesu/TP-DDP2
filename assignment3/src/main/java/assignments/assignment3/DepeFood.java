@@ -80,6 +80,10 @@ public class DepeFood {
         System.out.print("Restaurant " + restaurant.getNama() + " Berhasil terdaftar.");
         System.out.print(restoList.get(0).getNama());
     }
+    
+    public static void addRestoran(Restaurant nama){
+        restoList.add(nama);
+    }
 
     public static String getValidRestaurantName(String inputName) {
         String name = "";
@@ -232,12 +236,12 @@ public class DepeFood {
                 pesanan -> restaurant.getMenu().stream().anyMatch(menu -> menu.getNamaMakanan().equals(pesanan)));
     }
 
-    public static Menu[] getMenuRequest(Restaurant restaurant, List<String> listMenuPesananRequest) {
-        Menu[] menu = new Menu[listMenuPesananRequest.size()];
-        for (int i = 0; i < menu.length; i++) {
+    public static ArrayList<Menu> getMenuRequest(Restaurant restaurant, List<String> listMenuPesananRequest) {
+        ArrayList<Menu> menu = new ArrayList<Menu>();
+        for (int i = 0; i < menu.size(); i++) {
             for (Menu existMenu : restaurant.getMenu()) {
                 if (existMenu.getNamaMakanan().equals(listMenuPesananRequest.get(i))) {
-                    menu[i] = existMenu;
+                    menu.add(existMenu);
                 }
             }
         }

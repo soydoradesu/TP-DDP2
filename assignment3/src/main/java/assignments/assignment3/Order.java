@@ -1,5 +1,7 @@
 package assignments.assignment3;
 
+import java.util.ArrayList;
+
 public class Order {
 
     private String orderId;
@@ -7,9 +9,9 @@ public class Order {
     private int ongkir;
     private Restaurant restaurant;
     private boolean orderFinished;
-    private Menu[] items;
+    private ArrayList<Menu> items;
 
-    public Order(String orderId, String tanggal, int ongkir, Restaurant resto, Menu[] items) {
+    public Order(String orderId, String tanggal, int ongkir, Restaurant resto, ArrayList<Menu> items) {
         this.orderId = orderId;
         this.tanggal = tanggal;
         this.ongkir = ongkir;
@@ -42,28 +44,28 @@ public class Order {
         return ongkir;
     }
 
-    public Menu[] getItems() {
+    public ArrayList<Menu> getItems() {
         return items;
     }
 
-    public Menu[] getSortedMenu() {
-        Menu[] menuArr = new Menu[getItems().length];
-        for (int i = 0; i < getItems().length; i++) {
-            menuArr[i] = getItems()[i];
-        }
-        int n = menuArr.length;
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (menuArr[j].getHarga() > menuArr[j + 1].getHarga()) {
+    // public ArrayList<Menu> getSortedMenu() {
+    //     ArrayList<Menu> menuArr = new ArrayList<Menu>();
+    //     for (Menu menu : getItems()) {
+    //         menuArr.add(menu);
+    //     }
+    //     int n = menuArr.size();
+    //     for (int i = 0; i < n - 1; i++) {
+    //         for (int j = 0; j < n - i - 1; j++) {
+    //             if (menuArr.inde.getHarga() > menuArr[j + 1].getHarga()) {
 
-                    Menu temp = menuArr[j];
-                    menuArr[j] = menuArr[j + 1];
-                    menuArr[j + 1] = temp;
-                }
-            }
-        }
-        return menuArr;
-    }
+    //                 Menu temp = menuArr[j];
+    //                 menuArr[j] = menuArr[j + 1];
+    //                 menuArr[j + 1] = temp;
+    //             }
+    //         }
+    //     }
+    //     return menuArr;
+    // }
 
     public double getTotalHarga() {
         double sum = 0;

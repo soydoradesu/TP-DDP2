@@ -17,4 +17,9 @@ public class Menu {
     public String getNamaMakanan() {
         return namaMakanan;
     }
+
+    @Override
+    public String toString() {
+        return namaMakanan + " - Rp " + harga;
+    }
 }
