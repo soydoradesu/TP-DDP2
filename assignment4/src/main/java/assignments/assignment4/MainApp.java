@@ -1,15 +1,11 @@
 package assignments.assignment4;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import assignments.assignment3.DepeFood;
 import assignments.assignment3.User;
 import assignments.assignment4.components.form.LoginForm;
-import assignments.assignment4.page.AdminMenu;
-import assignments.assignment4.page.CustomerMenu;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,6 +17,7 @@ public class MainApp extends Application {
     private Scene currentScene;
     private static User user;
 
+    // Starts the program
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
@@ -38,6 +35,7 @@ public class MainApp extends Application {
         window.show();
     }
 
+    // Sets the user logged in
     public void setUser(User newUser) {
         user = newUser;
     }
@@ -53,10 +51,12 @@ public class MainApp extends Application {
         return allScenes.get(sceneName);
     }
 
+    // Adds scene
     public void addScene(String sceneName, Scene scene){
         allScenes.put(sceneName, scene);
     }
 
+    // Method for logout
     public void logout() {
         setUser(null); // Clear the current user
         setScene(getScene("Login")); // Switch to the login scene

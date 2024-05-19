@@ -19,7 +19,6 @@ import assignments.assignment4.MainApp;
 import assignments.assignment4.components.BillPrinter;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerMenu extends MemberMenu {
@@ -28,7 +27,7 @@ public class CustomerMenu extends MemberMenu {
     private Scene addOrderScene;
     private Scene printBillScene;
     private Scene payBillScene;
-    private BillPrinter billPrinter; // Instance of BillPrinter
+    private BillPrinter billPrinter;
     private MainApp mainApp;
     private User user;
     private ComboBox<String> restaurantComboBox;
@@ -37,16 +36,18 @@ public class CustomerMenu extends MemberMenu {
     public CustomerMenu(Stage stage, MainApp mainApp, User user) {
         this.stage = stage;
         this.mainApp = mainApp;
-        this.user = user; // Store the user
+        this.user = user; 
         this.scene = createBaseMenu();
         this.addOrderScene = createTambahPesananForm();
-        this.billPrinter = new BillPrinter(stage, mainApp, this.user); // Pass user to BillPrinter constructor
+        this.billPrinter = new BillPrinter(stage, mainApp, this.user);
         this.printBillScene = createBillPrinter();
         this.payBillScene = createBayarBillForm();
     }
 
+    // Create the base menu scene
     @Override
     public Scene createBaseMenu() {
+        // Scene layout and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
 
@@ -58,6 +59,7 @@ public class CustomerMenu extends MemberMenu {
         Button cekSaldoButton = new Button("Check Balance");
         Button logOutButton = new Button("Log Out");
 
+        // Set event handlers
         addOrderButton.setOnAction(e -> stage.setScene(addOrderScene));
         printBillButton.setOnAction(e -> stage.setScene(printBillScene));
         payBillButton.setOnAction(e -> stage.setScene(payBillScene));
@@ -68,7 +70,9 @@ public class CustomerMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+    // Create the AddOrderForm scene
     private Scene createTambahPesananForm() {
+        // Create layouts and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
 
@@ -88,6 +92,7 @@ public class CustomerMenu extends MemberMenu {
         ListView<Menu> menuItemsListView = new ListView<>();
         ObservableList<Menu> selectedMenuItems = FXCollections.observableArrayList();
 
+        // Set event handlers
         restaurantComboBox.setOnAction(e -> {
             String selectedRestaurantName = restaurantComboBox.getValue();
             Restaurant selectedRestaurant = DepeFood.findRestaurant(selectedRestaurantName);
@@ -115,7 +120,9 @@ public class CustomerMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+    // Create the PrintBill scene
     private Scene createBillPrinter() {
+        // Scene layout and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
     
@@ -128,6 +135,7 @@ public class CustomerMenu extends MemberMenu {
         Button submitButton = new Button("Print Bill");
         Button backButton = new Button("Back");
     
+        // Set event handlers
         submitButton.setOnAction(e -> billPrinter.printBill(orderIDField.getText()));
         backButton.setOnAction(e -> stage.setScene(scene));
     
@@ -135,7 +143,9 @@ public class CustomerMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+    // Create the PayBill scene
     private Scene createBayarBillForm() {
+        // Scene layout and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
 
@@ -150,6 +160,7 @@ public class CustomerMenu extends MemberMenu {
         Button submitButton = new Button("Pay Bill");
         Button backButton = new Button("Back");
 
+        // Set event handlers
         submitButton.setOnAction(e -> {
             String orderId = orderIdField.getText();
             int paymentMethod = paymentMethodComboBox.getSelectionModel().getSelectedIndex();
@@ -162,7 +173,9 @@ public class CustomerMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+    // Create the CheckBalance scene
     private Scene createCekSaldoScene() {
+        // Scene layout and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
     
@@ -172,6 +185,7 @@ public class CustomerMenu extends MemberMenu {
         Label nameLabel = new Label("Name: " + user.getNama());
         Label balanceLabel = new Label(getUserBalance());
     
+        // Set event handler
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> stage.setScene(scene));
     
@@ -179,7 +193,9 @@ public class CustomerMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+    // Handle adding a new order
     private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, ArrayList<Menu> menuItems) {
+        // Validate Input
         try {
             Restaurant restaurant = DepeFood.findRestaurant(namaRestoran);
             if (restaurant == null) {
@@ -195,9 +211,10 @@ public class CustomerMenu extends MemberMenu {
                 return;
             }
 
+            // Creates new order
             Order order = new Order(OrderGenerator.generateOrderID(namaRestoran, tanggalPemesanan, user.getNomorTelepon()),
                     tanggalPemesanan, OrderGenerator.calculateDeliveryCost(user.getLokasi()), restaurant, menuItems);
-            user.addOrderHistory(order);
+            user.addOrderHistory(order); // Adds the order to userHistory
             showAlert("Success", "Order Placed!", "Order " + OrderGenerator.generateOrderID(namaRestoran, tanggalPemesanan, user.getNomorTelepon()) +
                     " is successfully placed", AlertType.INFORMATION);
         } catch (Exception e) {
@@ -205,7 +222,9 @@ public class CustomerMenu extends MemberMenu {
         }
     }
 
+    // Handle payment of an order
     private void handleBayarBill(String orderID, int pilihanPembayaran) {
+        // Validate Input
         try {
             Order order = DepeFood.getOrderOrNull(orderID);
             if (order == null) {
@@ -217,8 +236,9 @@ public class CustomerMenu extends MemberMenu {
             long totalPrice;
             long amountToPay;
     
+            // Switch cases
             switch (pilihanPembayaran) {
-                case 0:
+                case 0: // If Credit card
                     user.setPaymentSystem("Credit Card");
                     paymentSystem = user.getPaymentSystem();
                     totalPrice = (long) order.getTotalHarga();
@@ -226,7 +246,7 @@ public class CustomerMenu extends MemberMenu {
                     showAlert("Success", "Payment Success!", "You have successfully paid Rp " + (int) totalPrice +
                             " with a transaction fee Rp " + (amountToPay - totalPrice), AlertType.INFORMATION);
                     break;
-                case 1:
+                case 1: // If debit
                     user.setPaymentSystem("Debit");
                     paymentSystem = user.getPaymentSystem();
                     totalPrice = (long) order.getTotalHarga();
@@ -240,7 +260,7 @@ public class CustomerMenu extends MemberMenu {
                     showAlert("Error", "Not a valid payment method", "Please choose the available payment method!", AlertType.ERROR);
                     return;
             }
-            order.setOrderFinished(true);
+            order.setOrderFinished(true); // Sets orderStatus to finished
         } catch (Exception e) {
             showAlert("Error", "Exception", "An error occurred: " + e.getMessage(), AlertType.ERROR);
         } finally {
@@ -251,21 +271,25 @@ public class CustomerMenu extends MemberMenu {
         }
     }
 
+    // Update the label for balance checking
     private void updateBalanceLabel() {
         if (balanceLabel != null) {
             balanceLabel.setText(getUserBalance());
+        }
     }
-}
 
+    // Getter method for use balance
     private String getUserBalance() {
         return "Balance: " + user.getSaldo();
     }
 
+    // Getter method for scene
     public Scene getScene() {
-        // Supaya scene Admin bisa ditampilkan
+        // Supaya scene Customer bisa ditampilkan
         return scene;
     }
 
+    // Referesh
     @Override
     protected void refresh() {
         super.refresh();
@@ -273,5 +297,4 @@ public class CustomerMenu extends MemberMenu {
                 DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList())
         ));
     }
-
 }

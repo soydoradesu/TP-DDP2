@@ -28,6 +28,7 @@ public class LoginForm {
         this.mainApp = mainApp; // Store MainApp instance
     }
 
+    // Creates the login form scene
     private Scene createLoginForm() {
         // Create GridPane layout
         GridPane grid = new GridPane();
@@ -68,6 +69,7 @@ public class LoginForm {
         return new Scene(grid, 400, 600);
     }
 
+    // Handles the login input
     private void handleLogin() {
         // Get input values
         String name = nameInput.getText().trim();
@@ -95,6 +97,7 @@ public class LoginForm {
     }
         
 
+    // Shows alert
     private void showAlert(String title, String header, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -103,6 +106,7 @@ public class LoginForm {
         alert.showAndWait();
     }
 
+    // Getter method for scene
     public Scene getScene() {
         return this.createLoginForm();
     }

@@ -1,7 +1,5 @@
 package assignments.assignment4.page;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import assignments.assignment3.DepeFood;
@@ -28,22 +26,24 @@ public class AdminMenu extends MemberMenu {
     private Scene addRestaurantScene;
     private Scene addMenuScene;
     private Scene viewRestaurantsScene;
-    private MainApp mainApp; // Reference to MainApp instance
+    private MainApp mainApp;
     private ComboBox<String> restaurantComboBox;
     private ComboBox<String> viewRestaurantComboBox;
 
     public AdminMenu(Stage stage, MainApp mainApp, User user) {
         this.stage = stage;
         this.mainApp = mainApp;
-        this.user = user; // Store the user
+        this.user = user; 
         this.scene = createBaseMenu();
         this.addRestaurantScene = createAddRestaurantForm();
         this.addMenuScene = createAddMenuForm();
         this.viewRestaurantsScene = createViewRestaurantsForm();
     }
 
+    // Create the base menu scene
     @Override
     public Scene createBaseMenu() {
+        // Scene layout and components
         VBox menuLayout = new VBox(10);
         menuLayout.setAlignment(Pos.CENTER);
 
@@ -54,6 +54,7 @@ public class AdminMenu extends MemberMenu {
         Button viewRestaurantButton = new Button("Restaurant List");
         Button logOutButton = new Button("Log Out");
 
+        // Set event handlers
         addRestaurantButton.setOnAction(e -> stage.setScene(addRestaurantScene));
         addMenuButton.setOnAction(e -> stage.setScene(addMenuScene));
         viewRestaurantButton.setOnAction(e -> {
@@ -66,7 +67,10 @@ public class AdminMenu extends MemberMenu {
         return new Scene(menuLayout, 400, 600);
     }
 
+
+    // Create the AddRestaurantForm scene
     private Scene createAddRestaurantForm() {
+        // Scene layout and components
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
 
@@ -77,6 +81,7 @@ public class AdminMenu extends MemberMenu {
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Back");
 
+        // Set event handlers
         submitButton.setOnAction(e -> handleTambahRestoran(restaurantNameField.getText()));
         backButton.setOnAction(e -> stage.setScene(scene));
 
@@ -84,7 +89,9 @@ public class AdminMenu extends MemberMenu {
         return new Scene(layout, 400, 600);
     }
 
+    // Create the AddMenuForm scene
     private Scene createAddMenuForm() {
+        // Scene layout and components
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
 
@@ -107,6 +114,7 @@ public class AdminMenu extends MemberMenu {
         Button submitButton = new Button("Add Menu");
         Button backButton = new Button("Back");
 
+        // Set event handlers
         submitButton.setOnAction(e -> {
             String selectedRestaurantName = restaurantComboBox.getValue();
             String itemName = itemNameField.getText();
@@ -137,7 +145,9 @@ public class AdminMenu extends MemberMenu {
         return new Scene(layout, 400, 600);
     }
 
+    // Create the ViewRestaurantsForm scene
     private Scene createViewRestaurantsForm() {
+        // Create the layout and components
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
 
@@ -151,6 +161,7 @@ public class AdminMenu extends MemberMenu {
         ListView<String> restaurantMenuListView = new ListView<>();
         Button backButton = new Button("Back");
 
+        // Set event handlers
         viewRestaurantComboBox.setOnAction(e -> {
             String selectedRestaurantName = viewRestaurantComboBox.getValue();
             Restaurant selectedRestaurant = findRestaurantByName(selectedRestaurantName);
@@ -169,12 +180,15 @@ public class AdminMenu extends MemberMenu {
         return new Scene(layout, 400, 600);
     }
 
+    // Getter method for the scene
     public Scene getScene() {
         // Supaya scene Admin bisa ditampilkan
         return scene;
     }
 
+    // Handle adding a new Restaurant
     private void handleTambahRestoran(String nama) {
+        // Validate the restaurant name
         String validName = DepeFood.getValidRestaurantName(nama);
         if (validName != null) {
             Restaurant newRestaurant = new Restaurant(validName);
@@ -187,7 +201,9 @@ public class AdminMenu extends MemberMenu {
         }
     }
 
+    // Handle adding a new Menu item to a Restaurant
     private void handleTambahMenuRestoran(Restaurant restaurant, String itemName, double price) {
+        // Validate input
         if (restaurant != null && !itemName.isEmpty() && price > 0) {
             restaurant.addMenu(new Menu(itemName, price));
             showAlert("Success", null, "Menu item added successfully.", Alert.AlertType.INFORMATION);
@@ -198,6 +214,7 @@ public class AdminMenu extends MemberMenu {
         }
     }
 
+    // Refresh
     @Override
     protected void refresh() {
         super.refresh();
@@ -211,6 +228,7 @@ public class AdminMenu extends MemberMenu {
         }
     }
 
+    // Finds restaurant by name
     private Restaurant findRestaurantByName(String name) {
         for (Restaurant restaurant : DepeFood.getRestoList()) {
             if (restaurant.getNama().equals(name)) {

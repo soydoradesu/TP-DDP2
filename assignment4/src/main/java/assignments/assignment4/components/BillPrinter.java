@@ -2,8 +2,6 @@ package assignments.assignment4.components;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,13 +13,10 @@ import javafx.stage.Stage;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-import assignments.assignment2.MainMenu;
 import assignments.assignment3.DepeFood;
-import assignments.assignment3.Menu;
 import assignments.assignment3.Order;
 import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
-import assignments.assignment4.page.MemberMenu;
 
 public class BillPrinter {
     private Stage stage;
@@ -34,7 +29,9 @@ public class BillPrinter {
         this.user = user;
     }
 
+    // Create the BillPrinterForm scene
     private Scene createBillPrinterForm() {
+        // Create the BillPrinterForm layout
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20));
@@ -49,6 +46,7 @@ public class BillPrinter {
         Label orderIdLabel = new Label("Order ID:");
         TextField orderIdField = new TextField();
     
+        // Set event handler
         Button printButton = new Button("Print Bill");
         printButton.setOnAction(e -> printBill(orderIdField.getText()));
     
@@ -61,6 +59,7 @@ public class BillPrinter {
         return new Scene(layout, 400, 200);
     }
 
+    // Prints bill
     public void printBill(String orderId) {
         Order order = DepeFood.getOrderOrNull(orderId);
         if (order != null) {
@@ -71,6 +70,7 @@ public class BillPrinter {
         }
     }
 
+    // Shows bill dialog
     private void showBillDialog(String billOutput) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Bill");
@@ -90,6 +90,7 @@ public class BillPrinter {
         alert.showAndWait();
     }
 
+    // For the bill output message
     public static String outputBillPesanan(Order order, User user) {
         DecimalFormat decimalFormat = new DecimalFormat();
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -113,6 +114,7 @@ public class BillPrinter {
                          );
     }
 
+    // Gets the menu pesanan
     public static String getMenuPesananOutput(Order order){
         StringBuilder pesananBuilder = new StringBuilder();
         DecimalFormat decimalFormat = new DecimalFormat();
@@ -125,6 +127,7 @@ public class BillPrinter {
         return pesananBuilder.toString();
     }
 
+    // Alert method
     protected void showAlert(String title, String header, String content, Alert.AlertType c){
         Alert alert = new Alert(c);
         alert.setTitle(title);
@@ -133,6 +136,7 @@ public class BillPrinter {
         alert.showAndWait();
     }
 
+    // Getter method for scene
     public Scene getScene() {
         return this.createBillPrinterForm();
     }
